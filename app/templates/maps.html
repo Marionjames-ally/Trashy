@@ -1,0 +1,40 @@
+{% extends 'bootstrap/base.html'%}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/maps.css')}}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.6.0/leaflet.css" />
+            <script src="http://cdn.leafletjs.com/leaflet/v1.6.0/leaflet.js"></script>
+        </head>
+        <body>
+            <div class="container-fluid">
+                <h3 class="list-group-item">Your Location</h3>
+                <div id="map" style="height: 500px;"></div>
+            <script type="text/javascript">
+                // The first parameter are the coordinates of the center of the map
+                // The second parameter is the zoom level
+                var map_object = new L.Map('map',{
+                                        center: [-1.2921, 36.8219],
+                                        zoom: 10,
+                                    });
+                // {s}, {z}, {x} and {y} are placeholders for map tiles
+                // {x} and {y} are the x/y of where you are on the map
+                // {z} is the zoom level
+                // {s} is the subdomain of cartodb
+                var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+                });
+                layer.addTo(map_object);
+                L.marker([{{latitude}},{{longitude}}]).addTo(map_object).bindPopup("<strong>My location</strong>").openPopup();
+            </script>
+            </div>
+        </body>
+    </html>
+{% endblock %}

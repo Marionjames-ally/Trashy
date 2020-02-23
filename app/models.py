@@ -39,3 +39,7 @@ class Checkout(db.Model):
     bags = db.Column(db.Integer)
     latitude = db.Column(db.String)
     longitude = db.Column(db.String)
+
+    def save_checkout(self):
+        db.session.add(self)
+        db.session.commit()
